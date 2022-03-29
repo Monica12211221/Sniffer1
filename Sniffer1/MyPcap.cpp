@@ -33,12 +33,12 @@ pcap_if_t* CMyPcap::GetAllAdapter(void)
 			return alldev;
 }
 
-
-
-
 int CMyPcap::SavePacket(struct pcap_pkthdr *header, const u_char *pkt_data, pcap_dumper_t* d)
 {
 	pcap_dump((u_char*)d, header, pkt_data);
 	pcap_dump_flush(d);
 	return 0;
 }
+
+
+

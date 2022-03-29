@@ -61,7 +61,6 @@ public:
 	void ShowPacketOnList(packet* p);//packet info on listctrl
 	static void GetEthernetType(ethernet_header * e, char *typestr);//获得以太网类型
 	static void GetIPv4Type(ip_header* ih, char* pt);//IP类型
-
 	afx_msg void OnNMClickList2(NMHDR *pNMHDR, LRESULT *pResult);
 	//CString m_EditPacket;
 	CEdit m_packetData;
@@ -83,16 +82,14 @@ public:
 	afx_msg void OnCaptureStop();
 	afx_msg void OnCaptureInterface();
 	CFilterDlg filter;
-
+	//static char* filterstr;
 	afx_msg void OnBnClickedButton5();
 	afx_msg void OnBnClickedButton4();
-
-	afx_msg void OnBnClickedButton3();
 	//	afx_msg void OnBnClickedButton6();
-	afx_msg void OnLvnItemchangedList2(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnCbnSelchangeCombo2();
-	afx_msg void OnCbnSelchangeCombo1();
-	afx_msg void OnEnChangeEdit1();
-	afx_msg void OnBnClickedOk();
+	//	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	//	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnBnClickedButton3();
+
+
 };
 

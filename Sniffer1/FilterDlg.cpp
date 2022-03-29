@@ -97,8 +97,6 @@ void CFilterDlg::ReadFilter(void)
 	}
 }
 
-
-
 void CFilterDlg::OnLbnSelchangeList1()
 {
 	// TODO: Add your control notification handler code here
@@ -120,10 +118,19 @@ void CFilterDlg::OnLbnSelchangeList1()
 		HasNewFilter = FALSE;
 	}
 	_variant_t vFilterName, vFilterString;
-
+	// 	if(LastSel!=-1)
+	// 	{
+	// 		m_pRecordset->Move(LastSel,_variant_t((long)adBookmarkFirst));
+	// 		m_pRecordset->PutCollect(_variant_t((long)0),_variant_t(Filtername));
+	// 		m_pRecordset->PutCollect(_variant_t((long)1),_variant_t(Filterstring));
+	// 		m_pRecordset->Update();
+	// 		m_filterList.DeleteString(LastSel);
+	// 		m_filterList.InsertString(LastSel,Filtername);
+	// 
+	// 	}
 
 	int num = m_filterList.GetCurSel();
-
+	/*	LastSel=num;*/
 	if (LB_ERR == num)
 	{
 		AfxMessageBox(_T("None Select!"));
@@ -177,9 +184,16 @@ void CFilterDlg::OnBnClickedButton3()
 }
 
 void CFilterDlg::OnEnChangeEdit2()
-{
-	GetDlgItemText(IDC_EDIT2, filter);
+{//判断输入的filter string 是否合法
+	// TODO:  If this is a RICHEDIT control, the control will not
+	// send this notification unless you override the CDialog::OnInitDialog()
+	// function and call CRichEditCtrl().SetEventMask()
+	// with the ENM_CHANGE flag ORed into the mask.
 
+	// TODO:  Add your control notification handler code here
+	//CString filter;
+	GetDlgItemText(IDC_EDIT2, filter);
+	/*char* filterstr=UnicodeToANSI(filter.GetBuffer());*/
 	if (0 == pcap_compile_nopcap(65536, DLT_EN10MB, &fcode,/*filterstr*/CStringA(filter.GetBuffer()), 1, 0xffffff))
 	{
 		hbrush = CreateSolidBrush(RGB(175, 255, 175));
@@ -212,13 +226,13 @@ HBRUSH CFilterDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	// TODO:  Change any attributes of the DC here
 	if (pWnd->GetDlgCtrlID() == IDC_EDIT2)
 	{
-
+		//pDC-> SetTextColor(RGB(255,0,0)); //设置字体颜色
 		pDC->SetBkMode(TRANSPARENT); //设置字体背景为透明
 		// TODO: Return a different brush if the default is not desired
 		return hbrush; // 设置背景色
 	}
 	else
-
+		// TODO:  Return a different brush if the default is not desired
 		return hbr;
 }
 
@@ -232,9 +246,9 @@ void CFilterDlg::OnBnClickedButton2()
 void CFilterDlg::OnBnClickedButton1()
 {
 	// TODO: Add your control notification handler code here
-
+	//CString filter;
 	GetDlgItemText(IDC_EDIT2, filter);
-
+	/*char* filterstr=UnicodeToANSI(filter.GetBuffer());*/
 	if (0 == pcap_compile_nopcap(65536, DLT_EN10MB, &fcode,/*filterstr*/CStringA(filter.GetBuffer()), 1, 0xffffff))
 	{
 		CDialog::OnOK();
@@ -247,6 +261,10 @@ void CFilterDlg::OnBnClickedButton1()
 		return;
 	}
 }
+// CString CFilterDlg::Getfilter()
+// {
+// 	return filter;
+// }
 
 void CFilterDlg::OnClose()
 {
@@ -254,3 +272,12 @@ void CFilterDlg::OnClose()
 	ExitConnect();
 	CDialog::OnClose();
 }
+
+
+
+
+
+
+
+
+
