@@ -81,11 +81,14 @@ BEGIN_MESSAGE_MAP(CSnifferDlg, CDialog)
 
 	ON_BN_CLICKED(IDC_BUTTON3, &CSnifferDlg::OnBnClickedButton3)
 	//ON_BN_CLICKED(IDC_BUTTON6, &CSnifferDlg::OnBnClickedButton6)
-	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST2, &CSnifferDlg::OnLvnItemchangedList2)
-	ON_CBN_SELCHANGE(IDC_COMBO2, &CSnifferDlg::OnCbnSelchangeCombo2)
-	ON_CBN_SELCHANGE(IDC_COMBO1, &CSnifferDlg::OnCbnSelchangeCombo1)
-	ON_EN_CHANGE(IDC_EDIT1, &CSnifferDlg::OnEnChangeEdit1)
-	ON_BN_CLICKED(IDOK, &CSnifferDlg::OnBnClickedOk)
+	//ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST2, &CSnifferDlg::OnLvnItemchangedList2)
+//	ON_CBN_SELCHANGE(IDC_COMBO2, &CSnifferDlg::OnCbnSelchangeCombo2)
+	//ON_CBN_SELCHANGE(IDC_COMBO1, &CSnifferDlg::OnCbnSelchangeCombo1)
+	//ON_EN_CHANGE(IDC_EDIT1, &CSnifferDlg::OnEnChangeEdit1)
+	//ON_BN_CLICKED(IDOK, &CSnifferDlg::OnBnClickedOk)
+	//ON_CBN_SELCHANGE(IDC_COMBO2, &CSnifferDlg::OnCbnSelchangeCombo2)
+//	ON_CBN_EDITCHANGE(IDC_COMBO2, &CSnifferDlg::OnEditchangeCombo2)
+ON_CBN_SELCHANGE(IDC_COMBO1, &CSnifferDlg::OnCbnSelchangeCombo1)
 END_MESSAGE_MAP()
 
 
@@ -93,9 +96,9 @@ END_MESSAGE_MAP()
 
 BOOL CSnifferDlg::OnInitDialog()
 {
+	
 	CDialog::OnInitDialog();
-
-
+	
 	// IDM_ABOUTBOX 必须在系统命令范围内。
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
@@ -129,6 +132,9 @@ BOOL CSnifferDlg::OnInitDialog()
 	m_List.InsertColumn(3, _T("Destination"), LVCFMT_LEFT, 120);
 	m_List.InsertColumn(4, _T("Protocol"), LVCFMT_LEFT, 80);
 	m_List.InsertColumn(5, _T("Length"), LVCFMT_LEFT, 90);
+	m_devComboBox.AddString(_T("Please select a network interface card (required)"));
+	
+	
 
 	// 获得所有网卡设备
 	alldevs = myPcap.GetAllAdapter();
@@ -142,6 +148,7 @@ BOOL CSnifferDlg::OnInitDialog()
 
 	capStatus = FALSE;
 
+	m_devComboBox.SetCurSel(0);
 	m_Font.CreateFont(15, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_SWISS | DEFAULT_PITCH, _T("DejaVu Sans Mono"));
 	m_packetData.SetFont(&m_Font);
 	m_InfoTree.SetFont(&m_Font);
@@ -205,7 +212,7 @@ void CSnifferDlg::OnSize(UINT nType, int cx, int cy)
 
 }
 
-//控件1
+//开始按钮
 void CSnifferDlg::OnBnClickedButton1()
 {
 
@@ -220,6 +227,8 @@ void CSnifferDlg::OnBnClickedButton1()
 		return;
 	}
 	int i;
+
+
 	//定位网络设备
 	for (d = alldevs, i = 0; i < devnum; d = d->next, i++);
 	m_List.DeleteAllItems();
@@ -237,6 +246,7 @@ void CSnifferDlg::OnBnClickedButton1()
 
 UINT CapThread(LPVOID lpParameter)
 {
+	
 	pcap_t *adhandle;
 	pcap_if_t* devnow = (pcap_if_t*)lpParameter;
 	char errbuf[PCAP_ERRBUF_SIZE + 1];
@@ -247,6 +257,10 @@ UINT CapThread(LPVOID lpParameter)
 	CString errstring;
 	u_int netmask;
 	struct bpf_program fcode;
+	
+	
+
+
 
 	if ((adhandle = pcap_open(devnow->name,          // 设备名
 		65536,            // 65536保证能捕获到不同数据链路层上的每个数据包的全部内容
@@ -366,7 +380,7 @@ UINT CapThread(LPVOID lpParameter)
 	return 0;
 }
 
-//控件2
+//结束按钮
 void CSnifferDlg::OnBnClickedButton2()
 {
 	// TODO: Add your control notification handler code here
@@ -1269,3 +1283,21 @@ void CSnifferDlg::OnBnClickedButton3()
 }
 
 
+
+
+//void CSnifferDlg::OnCbnSelchangeCombo2()
+//{
+//	// TODO: 在此添加控件通知处理程序代码
+//}
+
+
+//void CSnifferDlg::OnEditchangeCombo2()
+//{
+//	// TODO: 在此添加控件通知处理程序代码
+//}
+
+
+void CSnifferDlg::OnCbnSelchangeCombo1()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}

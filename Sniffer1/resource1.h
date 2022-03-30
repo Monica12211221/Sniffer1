@@ -11,7 +11,6 @@
 #define IDR_MENU1                       111
 #define IDD_FILTER_DIALOG               129
 #define IDC_COMBO1                      1000
-#define IDC_COMBO2                      1001
 #define IDC_BUTTON1                     1002
 #define IDC_BUTTON2                     1003
 #define IDC_BUTTON3                     1004
@@ -32,7 +31,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        113
 #define _APS_NEXT_COMMAND_VALUE         40004
-#define _APS_NEXT_CONTROL_VALUE         1014
+#define _APS_NEXT_CONTROL_VALUE         1015
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

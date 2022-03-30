@@ -45,6 +45,7 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
+	CComboBox m_comboBox;
 	CComboBox m_devComboBox;
 	pcap_if_t *alldevs;
 	pcap_if_t *d;
@@ -91,5 +92,8 @@ public:
 	afx_msg void OnBnClickedButton3();
 
 
+//	afx_msg void OnCbnSelchangeCombo2();
+//	afx_msg void OnEditchangeCombo2();
+	afx_msg void OnCbnSelchangeCombo1();
 };
 
