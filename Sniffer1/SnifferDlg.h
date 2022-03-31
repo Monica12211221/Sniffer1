@@ -86,14 +86,11 @@ public:
 	//static char* filterstr;
 	afx_msg void OnBnClickedButton5();
 	afx_msg void OnBnClickedButton4();
-	//	afx_msg void OnBnClickedButton6();
-	//	afx_msg void OnTimer(UINT_PTR nIDEvent);
-	//	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	
 	afx_msg void OnBnClickedButton3();
 
 
-//	afx_msg void OnCbnSelchangeCombo2();
-//	afx_msg void OnEditchangeCombo2();
+
 	afx_msg void OnCbnSelchangeCombo1();
 };
 

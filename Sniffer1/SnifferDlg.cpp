@@ -80,14 +80,7 @@ BEGIN_MESSAGE_MAP(CSnifferDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON4, &CSnifferDlg::OnBnClickedButton4)
 
 	ON_BN_CLICKED(IDC_BUTTON3, &CSnifferDlg::OnBnClickedButton3)
-	//ON_BN_CLICKED(IDC_BUTTON6, &CSnifferDlg::OnBnClickedButton6)
-	//ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST2, &CSnifferDlg::OnLvnItemchangedList2)
-//	ON_CBN_SELCHANGE(IDC_COMBO2, &CSnifferDlg::OnCbnSelchangeCombo2)
-	//ON_CBN_SELCHANGE(IDC_COMBO1, &CSnifferDlg::OnCbnSelchangeCombo1)
-	//ON_EN_CHANGE(IDC_EDIT1, &CSnifferDlg::OnEnChangeEdit1)
-	//ON_BN_CLICKED(IDOK, &CSnifferDlg::OnBnClickedOk)
-	//ON_CBN_SELCHANGE(IDC_COMBO2, &CSnifferDlg::OnCbnSelchangeCombo2)
-//	ON_CBN_EDITCHANGE(IDC_COMBO2, &CSnifferDlg::OnEditchangeCombo2)
+
 ON_CBN_SELCHANGE(IDC_COMBO1, &CSnifferDlg::OnCbnSelchangeCombo1)
 END_MESSAGE_MAP()
 
@@ -132,7 +125,7 @@ BOOL CSnifferDlg::OnInitDialog()
 	m_List.InsertColumn(3, _T("Destination"), LVCFMT_LEFT, 120);
 	m_List.InsertColumn(4, _T("Protocol"), LVCFMT_LEFT, 80);
 	m_List.InsertColumn(5, _T("Length"), LVCFMT_LEFT, 90);
-	m_devComboBox.AddString(_T("Please select a network interface card (required)"));
+	//m_devComboBox.AddString(_T("Please select a network interface card (required)"));
 	
 	
 
@@ -144,11 +137,11 @@ BOOL CSnifferDlg::OnInitDialog()
 		m_devComboBox.InsertString(m_devComboBox.GetCount(), CString(d->description));
 	}
 	pcap_freealldevs(d);
-	//InitializeCriticalSection(&CapThreadCS);//no use
+
 
 	capStatus = FALSE;
 
-	m_devComboBox.SetCurSel(0);
+	//m_devComboBox.SetCurSel(0);
 	m_Font.CreateFont(15, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_SWISS | DEFAULT_PITCH, _T("DejaVu Sans Mono"));
 	m_packetData.SetFont(&m_Font);
 	m_InfoTree.SetFont(&m_Font);
@@ -544,11 +537,9 @@ void CSnifferDlg::GetIPv4Type(ip_header* ih, char* pt)
 
 void CSnifferDlg::OnNMClickList2(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	//LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<NMITEMACTIVATE>(pNMHDR);
-	// TODO: Add your control notification handler code here
+	
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	// 	struct pcap_pkthdr *header;
-	// 	const u_char *pkt_data;
+	
 	if (pNMListView->iItem != -1)
 	{
 		int ItemClick = pNMListView->iItem;
@@ -564,9 +555,9 @@ UINT ReadDumpThread(LPVOID lpParameter)
 	struct pcap_pkthdr *header;
 	const u_char *pkt_data;
 	char errbuff[PCAP_ERRBUF_SIZE + 1];
-	//char* show=new char[];
+	
 	CString data;
-	//CString tmp;
+	
 	CSnifferDlg* mDlg = ((CSnifferDlg*)(AfxGetApp()->GetMainWnd()));
 	if (NULL == (adhandle = pcap_open_offline(CStringA(CapFilePath.GetBuffer()), errbuff)))
 	{
@@ -652,27 +643,7 @@ UINT ReadDumpThread(LPVOID lpParameter)
 
 BOOL CSnifferDlg::IsHttp(struct pcap_pkthdr *header, const u_char* pkt_data)
 {
-	// 	ip_header* ipheader=(ip_header*)(p+14);
-	// 	u_short ipLen=ipheader->ihl*4;
-	// 	tcp_header* tcpheader=(tcp_header*)(p+14+ipLen);
-	// 	u_short tcpLen=tcpheader->offset*4;
-	// 	
-	// 	u_char* httppac=(u_char*)p+14+ipLen+tcpLen;
-	// 	u_short httpLen=ntohs(ipheader->tlen)-ipLen-tcpLen;
-	// 	char tmp[10];
-	// 	CString res;
-	// 	for(int i=0;i<httpLen;i++)
-	// 	{
-	// 		sprintf_s(tmp,10,"%c",httppac[i]);
-	// 		res+=(CString)tmp;
-	// 		if(i>2&&13==httppac[i-1]&&10==httppac[i])
-	// 			break;
-	// 	}
-	// 	int httppos=res.Find(_T("HTTP"),0);
-	// 	if(httppos!=-1&&httppos!=65535)
-	// 		return TRUE;
-	// 	else
-	// 		return FALSE;
+	
 	ip_header* ipheader = (ip_header*)(pkt_data + 14);
 	u_short ipLen = ipheader->ihl * 4;
 	tcp_header* tcpheader = (tcp_header*)(pkt_data + 14 + ipLen);
@@ -718,8 +689,7 @@ CString CSnifferDlg::PackToEdit(struct pcap_pkthdr* header, const u_char* pkt_da
 	{
 		for (int i = 0; i <= ipDataLength; i++)
 		{
-			//printf("%02x",pkt_data[i]);
-			//tmp.Format(_T(" %02x"),pkt_data[i]);
+			
 			sprintf_s(s, 64, " %02X", pkt_data[i]);
 			data += (CString)s;
 			if (isgraph(pkt_data[i]))
@@ -732,13 +702,11 @@ CString CSnifferDlg::PackToEdit(struct pcap_pkthdr* header, const u_char* pkt_da
 			if (i % 16 == 15)
 			{
 				ipDataOut[end] = '\0';
-				/*printf("  %s",ipDataOut);*/
-				//sprintf(show,"  %s")
-				//tmp.Format(_T("  %s"),ipDataOut);
+				
 				sprintf_s(s, 64, " %s", ipDataOut);
 				data += (CString)s;
 				end = 0;
-				//printf("\n");
+				
 				data += CString("\r\n");
 			}
 		}
@@ -747,13 +715,11 @@ CString CSnifferDlg::PackToEdit(struct pcap_pkthdr* header, const u_char* pkt_da
 		{
 			for (int k = end * 3; k < 48; k++)
 			{
-				//printf("");
+				
 				data += CString(" ");
 			}
 			ipDataOut[end] = 0;
-			// 			printf("  %s",ipDataOut);
-			// 			printf("\n");
-			//tmp.Format(("  %s"),ipDataOut);
+			
 			sprintf_s(s, 64, " %s", ipDataOut);
 			data += (CString)s;
 			data += CString("\r\n");
@@ -1172,7 +1138,7 @@ UINT LoadThread(LPVOID lpParameter)
 	}
 
 	netmask = 0xffffff;
-	/*char* packet_filter=CFilterDlg::UnicodeToANSI(filterstr.GetBuffer());*/
+	
 	if (pcap_compile(adhandle, &fcode, CStringA(filterstr.GetBuffer()), 1, netmask) < 0)
 	{
 		errstring = CString("Unable to compile the packet filter. Check the syntax.");
@@ -1193,11 +1159,7 @@ UINT LoadThread(LPVOID lpParameter)
 		if (res == 0)
 			/* 超时时间到 */
 			continue;
-		//_itoa(packetNum,list.num,10);
-		//sprintf(list.time,timestr);
-
-		//PostMessage(hmainDialog,WM_PACKET_IN,NULL,(LPARAM)pkt);
-		/*SendMessageTimeout(hmainDialog,WM_UPDATE_LIST,(WPARAM)&list,0,SMTO_BLOCK,1000,&res);*/
+		
 		++num;
 		time_t local_tv_sec;
 		struct tm *ltime;
@@ -1238,7 +1200,7 @@ UINT LoadThread(LPVOID lpParameter)
 		_itoa(header->len, lenstr, 10);
 		CSnifferDlg* 	mDlg = ((CSnifferDlg*)(AfxGetApp()->GetMainWnd()));
 		int i = mDlg->m_List.InsertItem(mDlg->m_List.GetItemCount(), CString(temp));
-		//m_List.SetItemText(i,0,CString(list->num));
+		
 		//更新listctrl
 		mDlg->m_List.SetTextBkColor(0xFFE070);
 		mDlg->m_List.SetItemText(i, 0, CString(temp));
@@ -1251,25 +1213,7 @@ UINT LoadThread(LPVOID lpParameter)
 	}
 	return 0;
 }
-//void CSnifferDlg::OnBnClickedButton6()
-//{
-//	// TODO: Add your control notification handler code here
-//	CChartDlg* chartDlg=new CChartDlg;
-//	
-//	chartDlg->Create(IDD_CHART_DIALOG,NULL);
-//	chartDlg->ShowWindow(SW_SHOW);
-//}
 
-
-
-//void CSnifferDlg::OnTimer(UINT_PTR nIDEvent)
-//{
-//	// TODO: Add your message handler code here and/or call default
-//	EnterCriticalSection(&CapThreadCS);
-//	tcpnum=0;
-//	LeaveCriticalSection(&CapThreadCS);
-//	CDialog::OnTimer(nIDEvent);
-//}
 
 void CSnifferDlg::OnBnClickedButton3()
 {
@@ -1285,16 +1229,6 @@ void CSnifferDlg::OnBnClickedButton3()
 
 
 
-//void CSnifferDlg::OnCbnSelchangeCombo2()
-//{
-//	// TODO: 在此添加控件通知处理程序代码
-//}
-
-
-//void CSnifferDlg::OnEditchangeCombo2()
-//{
-//	// TODO: 在此添加控件通知处理程序代码
-//}
 
 
 void CSnifferDlg::OnCbnSelchangeCombo1()
